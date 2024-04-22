@@ -15,7 +15,7 @@ app.post('/register',async (req,res)=>{
     try{
         const {username,password}=req.body;
         const user=await User.create({username,password});
-        return res.status(200).json({message:"Success",data:user});
+        return res.status(200).json({message:"Registered Successfully",data:user});
     }catch(error){
         console.log(error.name);
         if (error.name === 'MongoServerError' && error.code === 11000) {
