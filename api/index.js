@@ -19,7 +19,7 @@ app.post('/register',async (req,res)=>{
     }catch(error){
         console.log(error.name);
         if (error.name === 'MongoServerError' && error.code === 11000) {
-            return res.status(400).json({message:"Username Already Exists",data:[]});
+            return res.status(400).json({message:"Username Already Exists.Try Different User Name",data:[]});
         }
         return res.status(500).json({message:"Something Went Wrong"});
     }
