@@ -1,26 +1,26 @@
 import './App.css';
-
+import Post  from './Post';
+import Header from './Header';
+import {Route, Routes} from "react-router-dom";
 function App() {
   return (
-    <main>
-      <header>
-        <a href="" className='logo'>MyBlog</a>
-        <nav>
-          <a href="">Login</a>
-          <a href="">Register</a>
-        </nav>
-      </header>
-      <div className="post">
-        <div className="image">
-        <img src="https://cdn.vectorstock.com/i/1000x1000/79/80/blue-background-with-desktop-computer-and-link-vector-15127980.webp"></img>
-        </div>
-        <div className="texts">
-        <h2>First Blog</h2>
-        <p>This is the paragraph for the given blog</p>
-      </div>
-        
-      </div>
-    </main>
+    <Routes>
+      <Route index element={
+          <main>
+            <Header />
+            <Post />
+            <Post />
+            <Post />
+        </main>
+
+      } />
+      <Route path={'/login'} element={
+        <div>Login Page</div>
+      }></Route>
+      <Route path={'/register'} element={
+        <div>Register Page</div>
+      }></Route>
+    </Routes>
   )
   
 }
