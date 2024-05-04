@@ -3,6 +3,11 @@ const mongoose = require('mongoose');
 const app = express();
 const cors = require('cors');
 const User = require('./models/Users');
+const bcrypt = require('bcryptjs');
+
+const salt = 'randomStringSalt123';
+
+
 app.use(express.json());
 app.use(cors());
 const path = require('path'); 
@@ -14,7 +19,8 @@ app.get('/',(req,res)=>{
 app.post('/register',async (req,res)=>{
     try{
         const {username,password}=req.body;
-        const user=await User.create({username,password});
+        const user=await User.create({username,
+            password:bcrypt.hashSync(password,salt)});
         return res.status(200).json({message:"Registered Successfully",data:user});
     }catch(error){
         console.log(error.name);
