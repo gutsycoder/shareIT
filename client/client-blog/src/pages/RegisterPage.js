@@ -6,11 +6,14 @@ export default function RegisterPage(){
 
     async function register(ev){
         ev.preventDefault();
+        console.log("Reached Here")
         const response = await fetch('http://localhost:4000/register',{
             method:'POST',
             body: JSON.stringify({username,password}),
             headers: {'Content-Type':'application/json'},
         });
+        console.log("Reached hereeee");
+        
         const responseData=await response.json();
         console.log(responseData);
         if(response.status===200){
