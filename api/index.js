@@ -6,8 +6,10 @@ const User = require('./models/Users');
 const bcrypt = require('bcrypt'); 
 const jwt = require('jsonwebtoken');
 const secret = 'somerandomjwttoken';
+const cookieParser = require('cookie-parser');
 app.use(express.json());
 app.use(cors({credentials:true,origin:'http://localhost:3000'}));
+app.use(cookieParser());
 const path = require('path'); 
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') }); 
 mongoose.connect(process.env.DB_URI);
@@ -28,7 +30,7 @@ app.post('/login',async(req,res)=>{
             const token =  jwt.sign({username,id:userDoc._id},secret,{});
             res.cookie('token',token);
 
-            return res.status(200).json({message:"Success",data:token});
+            return res.status(200).json({message:"Success",data:{id:userDoc._id,username:userDoc.username}});
         }
         return res.status(403).json({message:"Wrong Credentials",data:passOk});
     }catch(error){
@@ -55,6 +57,22 @@ app.post('/register',async (req,res)=>{
         return res.status(500).json({message:"Something Went Wrong"});
     }
    
+});
+
+app.get('/profile',async (req,res)=>{
+    try{
+        const {token}=req.cookies;
+        const info =jwt.verify(token,secret,{});
+        return res.status(200).json({message:"Success",data:info});
+
+    }catch(error){
+        console.log(error);
+        return res.status(500).json({message:"Something Went Wrong",data:[]});
+    }
+
+})
+app.post('/logout',async (req,res)=>{
+    res.cookie('token','').json('ok');
 })
 
 app.listen(4000);
